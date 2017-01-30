@@ -1,5 +1,7 @@
 package systemitself;
 
+import java.util.List;
+
 public class Projeto {
 
 	String titulo;
@@ -9,6 +11,12 @@ public class Projeto {
 	String objetivo;
 	String descricao;
 	double valor_financiado;
-	Colaborador participantes; // Obrigado um professor
+	List<Colaborador> participantes; // Obrigado um professor
 	int status; // 1- Em elaboração  2- Em andamento  3- Concluído
+	
+	public boolean Teste_Professor(Colaborador pesquisador){
+		
+		return false;
+	}
+	
 }
