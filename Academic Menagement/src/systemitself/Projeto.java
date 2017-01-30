@@ -12,11 +12,10 @@ public class Projeto {
 	String descricao;
 	double valor_financiado;
 	List<Colaborador> participantes; // Obrigado um professor
-	int status; // 1- Em elaboração  2- Em andamento  3- Concluído
+	int status; // 1- Em elaboração 2- Pronto para Inicar(Info, básicas Preenchidas) 3- Em andamento  4- Pronto para Concluir 5- Concluído
 	
-	public boolean Teste_Professor(Colaborador pesquisador){
-		
-		return false;
+	public int Consultar_Status(){
+		return this.status;
 	}
 	
 }
