@@ -3,7 +3,6 @@ package systemitself;
 import java.util.List;
 import java.util.Scanner;
 
-import org.omg.CORBA.SystemException;
 
 public class Colaborador {
 
@@ -14,6 +13,11 @@ public class Colaborador {
 	private Scanner input;
 	
 	//------------- Métodos Auxiliares ------------------
+	public String retorna_nomezinho(){
+		String tipo = "EU SOU MÉDICO";
+		
+		return tipo;
+	}
 	
 	public boolean Projeto_Contem_Professor(Projeto pesquisa){
 		
@@ -135,9 +139,9 @@ public class Colaborador {
 		System.out.println("Publicação adicionada com sucesso!");
 	}
 
-	public Colaborador Adicionar_Colaborador(){
+	public Colaborador Colaborador(String nome, String email, int tipo){
 		
-		String nome, email;
+		/*String nome, email;
 		int tipo;
 		
 		input = new Scanner(System.in);
@@ -151,7 +155,7 @@ public class Colaborador {
 				+ "            4- Professor\n"
 				+ "5-Pesquisador");
 		
-		tipo = input.nextInt();
+		tipo = input.nextInt();*/
 		
 		if(tipo == 1){
 			return criar_AlGraduacao(nome, email);
