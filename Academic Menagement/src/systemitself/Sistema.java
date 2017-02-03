@@ -8,27 +8,10 @@ public class Sistema {
 
 	private static Scanner input;
 	private static ArrayList<Colaborador> colaboradores;
-	private List<Projeto> projetos;
-	private static Colaborador fulano;
-	
-	public static void mostrar_Colaboradores(List <Colaborador> colaboradores){
-		
-		Colaborador fulano = null;
-		int aux;
-		int total_participantes = colaboradores.size();
-		
-		System.out.println(total_participantes);
-		if(total_participantes == 0){
-			System.out.println("Não há colaboradores para listar!");
-		}
-		
-		for(aux = 0; aux < total_participantes; aux++){
-			fulano = colaboradores.get(aux);
-			
-			System.out.print("\nNome: " + fulano.nome + "\nEmail: " + fulano.email + "\n" + fulano.retorna_nomezinho());
-		}
-	}
-	
+	private static ArrayList<Projeto> projetos;
+
+
+	//------------- Métodos Auxiliares ------------------
 	public static AlunoGraduacao adicionar_AG(String nome, String email){
 		
 		AlunoGraduacao fulano = new AlunoGraduacao();
@@ -74,7 +57,39 @@ public class Sistema {
 		return fulano;
 	}
 	
-	
+	public static void mostrar_Colaboradores(List <Colaborador> colaboradores){
+		
+		Colaborador fulano = null;
+		int aux;
+		int total_participantes = colaboradores.size();
+		
+		if(total_participantes == 0){
+			System.out.println("Não há colaboradores para listar!");
+		}
+		
+		for(aux = 0; aux < total_participantes; aux++){
+			fulano = colaboradores.get(aux);
+			
+			System.out.print("\nID: " + aux + " || Nome: " + fulano.nome + " || Email: " + fulano.email + " e" + fulano.retorna_tipo());
+		}
+	}
+	public static void mostrar_Projetos(List <Projeto> projetos){
+		
+		Projeto projeto = null;
+		int aux;
+		int total_projetos = projetos.size();
+		
+		if(total_projetos == 0){
+			System.out.println("Não há colaboradores para listar!");
+		}
+		
+		for(aux = 0; aux < total_projetos; aux++){
+			projeto = projetos.get(aux);
+			
+			System.out.print("\nTítulo: " + projeto.titulo + " || Status: " + projeto.get_Status());
+		}
+	}
+	//------------- Métodos Principais ------------------
 	public static Colaborador adicionar_Colaborador(){
 		
 		String nome, email;
@@ -104,6 +119,43 @@ public class Sistema {
 		}
 		
 	}
+	public static Projeto adicionar_Projeto(){
+		
+		String titulo, data_inicio, data_termino, agencia_financiadora, objetivo, descricao;
+		double valor_financiado;
+		
+		Projeto projetonovo = new Projeto();
+		
+		input = new Scanner(System.in);
+		System.out.print("Insira o título do projeto: ");
+		titulo = input.nextLine();
+		System.out.print("Insira a data de início do projeto (dd/mm/aa) : ");
+		data_inicio = input.nextLine();
+		System.out.print("Insira a data de término do projeto (dd/mm/aa) : ");
+		data_termino = input.nextLine();
+		System.out.print("Agência financiadora do projeto: ");
+		agencia_financiadora = input.nextLine();
+		System.out.print("Digite o objetivo do Projeto: ");
+		objetivo = input.nextLine();
+		System.out.print("Descreva o projeto: ");
+		descricao = input.nextLine();
+		System.out.print("Digite o valor financiado: ");
+		valor_financiado = input.nextDouble();
+		
+		projetonovo.setTitulo(titulo);
+		projetonovo.setDataInicio(data_inicio);
+		projetonovo.setDataTermino(data_termino);
+		projetonovo.setAgenciaFinanciadora(agencia_financiadora);
+		projetonovo.setObjetivo(objetivo);
+		projetonovo.setDescricao(descricao);
+		projetonovo.setValorFinanciado(valor_financiado);
+		projetonovo.setStatus_EmElaboracao(1);
+		
+		
+		
+		return projetonovo;
+	}
+	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -111,11 +163,13 @@ public class Sistema {
 		int comando = 1;
 		input = new Scanner(System.in);
 		colaboradores = new ArrayList<Colaborador>();
+		projetos = new ArrayList<Projeto>();
+		
 		
 		
 		while(comando != 0){
 			
-			System.out.print("----------------------------------------------------\n"
+			System.out.print("\n\n----------------------------------------------------\n"
                                 + "Seja bem vindo!\nSelecione uma das opções abaixo:\n\n"
 					+ "1- Alocar Colaborador\n"                     
 					+ "2- Alterar Status\n"		   
@@ -123,8 +177,10 @@ public class Sistema {
 					+ "4- Consultar Colaborador\n"     
 					+ "5- Consultar Projeto\n"		   
 					+ "6- Mostrar relatório do Laboratório\n" 
-					+ "7- Adicionar Colaborador\n"      
+					+ "7- Adicionar Colaborador\n"      //feito
 					+ "8- Adicionar Projeto\n"
+					+ "9- Mostrar Colaboradores\n"
+					+ "10- Mostrar Projetos\n"
 					+ "Aperte '0' para sair !\n"	
                                 + "----------------------------------------------------\n\n\n\n\n"
                                 + "Comando:");
@@ -165,12 +221,23 @@ public class Sistema {
 				case 7:
 					System.out.println("Adição de Colaborador\n-----------------------------\n");
 					colaboradores.add(adicionar_Colaborador());
-					mostrar_Colaboradores(colaboradores);
+
 					break;
 					
 				case 8:
 					System.out.println("Adição de Projeto\n-----------------------------\n");
+					projetos.add(adicionar_Projeto());
+					break;
 					
+				case 9:
+					System.out.println("Mostrar Colaboradores do Laboratório\n-----------------------------\n");
+					mostrar_Colaboradores(colaboradores);
+					
+					break;
+					
+				case 10:
+					System.out.println("Mostrar Projetos do Laboratório\n-----------------------------\n");
+					mostrar_Projetos(projetos);
 					break;
 				
 				default:
