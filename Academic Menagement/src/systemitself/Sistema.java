@@ -103,11 +103,43 @@ public class Sistema {
 			projeto = projetos.get(aux);
 			
 			if(projeto.get_Status() == "Em Elaboração"){
-				System.out.print("\nID: "+ aux +"Título: " + projeto.titulo);				
+				System.out.print("\nID: "+ aux +"  || Título: " + projeto.titulo);				
 			}
 		}
 	}
-
+	public static void atualizar_Status(List<Colaborador> colaboradores, List<Projeto> projetos){ // Roda todos os projetos procurando quais podem alterar os status
+		
+		int aux = 0, contador = 0, id = 0;
+		int total_projetos = projetos.size();
+		Projeto projeto = null;
+		
+		System.out.println("Selecione o ID do projeto que deseja Começar/Concluir:");
+		
+		for(aux = 0; aux < total_projetos; aux++){
+			projeto = projetos.get(aux);
+			
+			if(projeto.conferir_Projeto_Prontoparacomecar()){
+				contador++;
+				System.out.print("\nID: "+ aux +"Título: " + projeto.titulo + " - ESTÁ PRONTO PARA COMEÇAR!");
+			}else if(projeto.conferir_Projeto_Prontoparaconcluir()){
+				contador++;
+				System.out.print("\nID: "+ aux +"Título: " + projeto.titulo + " - ESTÁ PRONTO PARA CONCLUIR!");
+			}
+		}
+		
+		if(contador == 0){
+			System.out.println("Desculpe! Não há projetos prontos para Concluir/Começar!");
+		}else{
+			System.out.print("\nProjeto número: ");
+			id = input.nextInt();
+			
+			projeto = projetos.get(id);
+			projeto.alterar_Status();
+			System.out.println("Status do projeto \"" + projeto.titulo + "\" mudou para "+ projeto.get_Status());
+		}		
+		
+	}
+	
 	//------------- Métodos Principais ------------------
 	public static Colaborador adicionar_Colaborador(){
 		
@@ -179,32 +211,36 @@ public class Sistema {
 		int id_colaborador, id_projeto;
 		
 		input = new Scanner(System.in);
-		
-		mostrar_Projetos_Em_Elaboracao(projetos);
-		System.out.print("\nSELECIONE O ID DO PROJETO AONDE O COLABORADOR SERÁ ALOCADO: ");
-		id_projeto = input.nextInt();
-		
-		mostrar_Colaboradores(colaboradores);
-		System.out.print("\nSELECIONE O ID DO COLABORADOR A SE ALOCADO: ");
-		id_colaborador = input.nextInt();
-		
-		Colaborador fulano = colaboradores.get(id_colaborador);
-		Projeto projeto = projetos.get(id_projeto);
-		
-		if(fulano.Teste_Aluno_Graduacao()){
-			if(fulano.pode_Alocar()){
+		if(colaboradores.size() == 0 || projetos.size() == 0){
+			System.out.println("Alocação não permitida! Não existem projetos e/ou colaboradores suficientes para prosseguir com a alocação!");
+		}else{
+			mostrar_Projetos_Em_Elaboracao(projetos);
+			System.out.print("\nSELECIONE O ID DO PROJETO AONDE O COLABORADOR SERÁ ALOCADO: ");
+			id_projeto = input.nextInt();
+			
+			mostrar_Colaboradores(colaboradores);
+			System.out.print("\nSELECIONE O ID DO COLABORADOR A SE ALOCADO: ");
+			id_colaborador = input.nextInt();
+			
+			Colaborador fulano = colaboradores.get(id_colaborador);
+			Projeto projeto = projetos.get(id_projeto);
+			
+			if(fulano.Teste_Aluno_Graduacao()){
+				if(fulano.pode_Alocar()){
+					fulano.adicionar_Projeto(projeto);
+					projeto.adicionar_Colaboradores(fulano);
+				}else{
+					System.out.println("\nAlocação não permitida ! Aluno participa de mais de dois Projetos \"Em Andamento\"");
+				}
+			}else{
 				fulano.adicionar_Projeto(projeto);
 				projeto.adicionar_Colaboradores(fulano);
-			}else{
-				System.out.println("\nAlocação não permitida ! Aluno participa de mais de dois Projetos \"Em Andamento\"");
-			}
-		}else{
-			fulano.adicionar_Projeto(projeto);
-			projeto.adicionar_Colaboradores(fulano);
+			}	
 		}
 		
 	}
 	
+	//---------------------------------------------------
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
@@ -220,16 +256,16 @@ public class Sistema {
 			System.out.print("\n\n----------------------------------------------------\n"
                                 + "Seja bem vindo!\nSelecione uma das opções abaixo:\n\n"
 					+ "1- Alocar Colaborador\n"         //feito    
-					+ "2- Alterar Status\n"		   
+					+ "2- Alterar Status\n"		   		//feito
 					+ "3- Inclusão de Publicação\n"        
 					+ "4- Consultar Colaborador\n"     
 					+ "5- Consultar Projeto\n"		   
 					+ "6- Mostrar relatório do Laboratório\n" 
 					+ "7- Adicionar Colaborador\n"      //feito
 					+ "8- Adicionar Projeto\n"			//feito
-					+ "9- Mostrar Colaboradores\n"
-					+ "10- Mostrar Projetos\n"
-					+ "Aperte '0' para sair !\n"	
+					+ "9- Mostrar Colaboradores\n"		//feito
+					+ "10- Mostrar Projetos\n"			//feito
+					+ "Aperte '0' para sair !\n"		//feito
                                 + "----------------------------------------------------\n\n\n\n\n"
                                 + "Comando:");
 			
@@ -248,6 +284,7 @@ public class Sistema {
 				
 				case 2:
 					System.out.println("Alteração de Status\n-----------------------------\n");
+					atualizar_Status(colaboradores, projetos);
 					break;
 					
 				case 3:

@@ -12,6 +12,7 @@ public class Projeto {
 	String descricao;	//feito
 	double valor_financiado;	//feito
 	private static ArrayList<Colaborador> participantes = new ArrayList<Colaborador>(); // Obrigado um professor
+	private static ArrayList<Publicacoes> publicacoes = new ArrayList<Publicacoes>();
 	int status; //feito // 1- Em elaboração 2- Pronto para Inicar(Info, básicas Preenchidas) 3- Em andamento  4- Pronto para Concluir 5- Concluído
 	
 	public int Consultar_Status(){
@@ -58,14 +59,54 @@ public class Projeto {
 		
 		if(this.status == 1){
 			status = "Em Elaboração";
-		}else if(this.status == 2){
-			status = "Em Andamento";
 		}else if(this.status == 3){
+			status = "Em Andamento";
+		}else if(this.status == 5){
 			status = "Concluído";
 		}
 		
 		return status;
 	}
+	public boolean conferir_Projeto_Prontoparacomecar(){
+		
+		Colaborador fulano = null;
+		int flag = 0, aux = 0;
+		int total_colaboradores = Projeto.participantes.size();
+		
+		for(aux = 0; aux < total_colaboradores; aux++){
+			fulano = Projeto.participantes.get(aux);
+			if(fulano.Teste_Professor()){
+				flag = 1;
+			}
+		}
+		
+		if(flag == 1){
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
+	public boolean conferir_Projeto_Prontoparaconcluir(){
+		
+		int total_publicacoes = Projeto.publicacoes.size();
+		
+		if(total_publicacoes > 0){
+			return true;
+		}else{
+			return false;
+		}
+
+	}
+	public void alterar_Status(){
+		
+		if(this.status == 1){
+			setStatus(3);
+		}else if(this.status == 3){
+			setStatus(5);
+		}
+	}
+	
 	//------------- Métodos Principais ------------------
 	
 	public void adicionar_Colaboradores(Colaborador fulano){
