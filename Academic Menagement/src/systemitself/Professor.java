@@ -1,17 +1,9 @@
 package systemitself;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Professor extends Colaborador{
 	
-	List<Colaborador> orientacoes;
-	
-	
-	public void Adicionar_Orientacao(Colaborador aluno){
-		
-		orientacoes.add(aluno);
-		
-	}
 	
 	public String retorna_tipo(){
 		String tipo = " é um Professor.";

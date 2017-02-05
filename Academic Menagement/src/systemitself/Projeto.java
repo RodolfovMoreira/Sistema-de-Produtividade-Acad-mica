@@ -15,9 +15,7 @@ public class Projeto {
 	private static ArrayList<Publicacoes> publicacoes = new ArrayList<Publicacoes>();
 	int status; //feito // 1- Em elaboração 2- Pronto para Inicar(Info, básicas Preenchidas) 3- Em andamento  4- Pronto para Concluir 5- Concluído
 	
-	public int Consultar_Status(){
-		return this.status;
-	}
+
 	
 	//------------- Métodos Auxiliares ------------------
 	public void setTitulo(String titulo){
@@ -53,6 +51,9 @@ public class Projeto {
 		this.status = status;
 	}
 
+	public int Consultar_Status(){
+		return this.status;
+	}
 	public String get_Status(){
 		
 		String status = null;
@@ -114,5 +115,7 @@ public class Projeto {
 		participantes.add(fulano);
 		System.out.print(fulano.nome + " foi alocado(a) com sucesso no projeto: \"" + this.titulo + "\"");
 	}
-
+	public void adicionar_Publicacao(Publicacoes publicacao){
+		Projeto.publicacoes.add(publicacao);
+	}
 }

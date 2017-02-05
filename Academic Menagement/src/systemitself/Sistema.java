@@ -57,6 +57,44 @@ public class Sistema {
 		return fulano;
 	}
 	
+	public static void mostrar_Alunos(List <Colaborador> colaboradores, int i){
+		
+		Colaborador fulano = null;
+		int aux;
+		int total_participantes = colaboradores.size();
+		
+		if(total_participantes == 0){
+			System.out.println("Não há Professores para listar!");
+		}
+		
+		for(aux = 0; aux < total_participantes; aux++){
+			fulano = colaboradores.get(aux);
+			
+			if(!fulano.Teste_Pesquisador()){
+				if(!(aux == i)){
+					System.out.print("\nID: " + aux + " || Nome: " + fulano.nome);	
+				}	
+			}
+		}
+	}
+	public static void mostrar_Professores(List <Colaborador> colaboradores){
+		
+		Colaborador fulano = null;
+		int aux;
+		int total_participantes = colaboradores.size();
+		
+		if(total_participantes == 0){
+			System.out.println("Não há Professores para listar!");
+		}
+		
+		for(aux = 0; aux < total_participantes; aux++){
+			fulano = colaboradores.get(aux);
+			
+			if(fulano.Teste_Professor()){
+				System.out.print("\nID: " + aux + " || Nome: " + fulano.nome);	
+			}
+		}
+	}
 	public static void mostrar_Colaboradores(List <Colaborador> colaboradores){
 		
 		Colaborador fulano = null;
@@ -86,7 +124,7 @@ public class Sistema {
 		for(aux = 0; aux < total_projetos; aux++){
 			projeto = projetos.get(aux);
 			
-			System.out.print("\nTítulo: " + projeto.titulo + " || Status: " + projeto.get_Status());
+			System.out.print("\nID:" + aux + " || Título: " + projeto.titulo + " || Status: " + projeto.get_Status());
 		}
 	}
 	public static void mostrar_Projetos_Em_Elaboracao(List <Projeto> projetos){
@@ -120,10 +158,10 @@ public class Sistema {
 			
 			if(projeto.conferir_Projeto_Prontoparacomecar()){
 				contador++;
-				System.out.print("\nID: "+ aux +"Título: " + projeto.titulo + " - ESTÁ PRONTO PARA COMEÇAR!");
+				System.out.print("\nID: "+ aux +" Título: " + projeto.titulo + " - ESTÁ PRONTO PARA COMEÇAR!");
 			}else if(projeto.conferir_Projeto_Prontoparaconcluir()){
 				contador++;
-				System.out.print("\nID: "+ aux +"Título: " + projeto.titulo + " - ESTÁ PRONTO PARA CONCLUIR!");
+				System.out.print("\nID: "+ aux +" Título: " + projeto.titulo + " - ESTÁ PRONTO PARA CONCLUIR!");
 			}
 		}
 		
@@ -239,7 +277,89 @@ public class Sistema {
 		}
 		
 	}
-	
+	public static void adicionar_Orientacao_Publicacao(List<Colaborador> colaboradores, List<Projeto> projetos){
+		
+		int escolha = 0, id_professor = 0, id_aluno=0, ano, id,	id_autor, comando = 1;
+		Projeto projeto = null;
+		Colaborador fulano = null;
+		Colaborador sicrano = null;
+		String titulos, conferencia, lixo;
+		
+		System.out.print("\n------------------------\nSelecione:\n1- Orientação\n2- Publicação\n------------------------\nEscolha:");
+		
+		escolha = input.nextInt();
+		lixo = input.nextLine(); // pega escape
+		
+		
+		if(escolha == 1){
+			mostrar_Professores(colaboradores);
+			System.out.print("\nDigite o ID do professor: ");
+			id_professor = input.nextInt();
+			
+			System.out.println("\n\n");
+			mostrar_Alunos(colaboradores,id_professor);
+			System.out.print("\nDigite o ID do aluno: ");
+			id_professor = input.nextInt();
+			fulano = colaboradores.get(id_professor);
+			sicrano = colaboradores.get(id_aluno);
+			
+			fulano.adicionar_Orientacao(sicrano);
+			System.out.println("\nOrientação adicionada com sucesso!");
+		}else if(escolha == 2){
+			
+			Publicacoes publicacao = new Publicacoes();
+			
+			System.out.print("\nDigite o título da Publicação: ");
+			titulos = input.nextLine();
+			System.out.print("Digite a conferência onde foi publicada: ");
+			conferencia = input.nextLine();
+			System.out.print("Digite o ano de publicação: ");
+			ano = input.nextInt();
+			
+			publicacao.set_Titulo(titulos);
+			publicacao.set_Conferencia(conferencia);
+			publicacao.set_Ano(ano);
+			
+			System.out.print("\nDeseja associar a um projeto?\n1- Sim\n2- Não\n");
+			escolha = input.nextInt();
+			
+			if(escolha == 1){
+				mostrar_Projetos(projetos);
+				System.out.print("\nID do projeto a ser associado: ");
+				id = input.nextInt();
+				projeto = projetos.get(id);
+				
+				if(projeto.Consultar_Status() == 3){
+					publicacao.set_ProjetoAssociado(projeto);	
+					projeto.adicionar_Publicacao(publicacao);
+				}else{
+					System.out.print("\nProjeto selecionado não está em andamento, associação proibida!\n");
+				}
+			}
+			while(comando == 1){
+				mostrar_Colaboradores(colaboradores);
+				System.out.print("\nSelecione o ID do autor: ");
+				id_autor = input.nextInt();
+					
+				sicrano = colaboradores.get(id_autor);
+					
+				publicacao.adicionar_Colaborador(sicrano);
+				sicrano.adicionar_Publicacao(publicacao);
+					
+				System.out.print("Deseja adicionar outro autor?\n"
+						+ "1-Sim\n"
+						+ "0-Não\n"
+						+ "Escolha: ");
+				comando = input.nextInt();
+			}
+			
+			System.out.println("\nPublicação adicionada com sucesso!");
+		}else{
+			System.out.println("Entrada inválida!");
+		}
+		
+		
+	}
 	//---------------------------------------------------
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -257,7 +377,7 @@ public class Sistema {
                                 + "Seja bem vindo!\nSelecione uma das opções abaixo:\n\n"
 					+ "1- Alocar Colaborador\n"         //feito    
 					+ "2- Alterar Status\n"		   		//feito
-					+ "3- Inclusão de Publicação\n"        
+					+ "3- Inclusão de Publicação\\Orientação\n"    //feito    
 					+ "4- Consultar Colaborador\n"     
 					+ "5- Consultar Projeto\n"		   
 					+ "6- Mostrar relatório do Laboratório\n" 
@@ -289,6 +409,7 @@ public class Sistema {
 					
 				case 3:
 					System.out.println("Inclusão de Publicação\n-----------------------------\n");
+					adicionar_Orientacao_Publicacao(colaboradores, projetos);
 					break;
 				
 				case 4:
