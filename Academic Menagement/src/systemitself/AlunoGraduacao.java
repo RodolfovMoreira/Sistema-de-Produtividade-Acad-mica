@@ -10,6 +10,7 @@ public class AlunoGraduacao extends Colaborador {
 		return tipo;
 	}
 	
+	
 	@Override
 	public boolean Teste_Aluno_Graduacao(){
 		

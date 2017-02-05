@@ -46,17 +46,8 @@ public class Projeto {
 	public void setValorFinanciado(Double valorfinanciado ){
 		
 		this.valor_financiado = valorfinanciado;
-	}
-	
-	public void setStatus_EmElaboracao(int status){
-		
-		this.status = status;
-	}
-	public void setStatus_EmAndamento(int status){
-		
-		this.status = status;
-	}
-	public void setStatus_Concluido(int status){
+	}	
+	public void setStatus(int status){
 		
 		this.status = status;
 	}
@@ -75,4 +66,12 @@ public class Projeto {
 		
 		return status;
 	}
+	//------------- Métodos Principais ------------------
+	
+	public void adicionar_Colaboradores(Colaborador fulano){
+		
+		participantes.add(fulano);
+		System.out.print(fulano.nome + " foi alocado(a) com sucesso no projeto: \"" + this.titulo + "\"");
+	}
+
 }

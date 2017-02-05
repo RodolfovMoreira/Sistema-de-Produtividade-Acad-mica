@@ -9,8 +9,8 @@ public class Colaborador {
 
 	String nome;
 	String email;
-	private static ArrayList<Publicacoes> publicacoes;
-	private static ArrayList<Projeto> historico;
+	private static ArrayList<Publicacoes> publicacoes = new ArrayList<Publicacoes>();
+	private static ArrayList<Projeto> historico = new ArrayList<Projeto>();
 	private Scanner input;
 	
 	//------------- Métodos Auxiliares ------------------	
@@ -30,7 +30,33 @@ public class Colaborador {
 		
 		return tipo;
 	}
-	
+	public boolean pode_Alocar(){   // retorna TRUE caso o AG possa ser alocado
+		
+		int contagem = 0, aux;
+		int total_projetos = historico.size();
+		Projeto teste = null;
+		
+		if(total_projetos == 0){
+			return true;
+		}
+		
+		for(aux = 0; aux < total_projetos; aux++){
+			teste = historico.get(aux);
+			if(teste.Consultar_Status() == 2){
+				contagem++;
+			}
+		}
+		
+		if(contagem > 2){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	public void adicionar_Projeto(Projeto projeto){
+		
+		historico.add(projeto);
+	}
 	
 	//-------------- Testes e Consultas -----------------
 	

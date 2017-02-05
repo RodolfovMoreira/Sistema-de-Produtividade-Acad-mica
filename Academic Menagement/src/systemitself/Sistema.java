@@ -89,6 +89,25 @@ public class Sistema {
 			System.out.print("\nTítulo: " + projeto.titulo + " || Status: " + projeto.get_Status());
 		}
 	}
+	public static void mostrar_Projetos_Em_Elaboracao(List <Projeto> projetos){
+		
+		Projeto projeto = null;
+		int aux;
+		int total_projetos = projetos.size();
+		
+		if(total_projetos == 0){
+			System.out.println("Não há colaboradores para listar!");
+		}
+		
+		for(aux = 0; aux < total_projetos; aux++){
+			projeto = projetos.get(aux);
+			
+			if(projeto.get_Status() == "Em Elaboração"){
+				System.out.print("\nID: "+ aux +"Título: " + projeto.titulo);				
+			}
+		}
+	}
+
 	//------------- Métodos Principais ------------------
 	public static Colaborador adicionar_Colaborador(){
 		
@@ -149,13 +168,42 @@ public class Sistema {
 		projetonovo.setObjetivo(objetivo);
 		projetonovo.setDescricao(descricao);
 		projetonovo.setValorFinanciado(valor_financiado);
-		projetonovo.setStatus_EmElaboracao(1);
+		projetonovo.setStatus(1);
 		
 		
 		
 		return projetonovo;
 	}
-	
+	public static void alocar_Colaborador(List<Colaborador> colaboradores, List<Projeto> projetos){
+		
+		int id_colaborador, id_projeto;
+		
+		input = new Scanner(System.in);
+		
+		mostrar_Projetos_Em_Elaboracao(projetos);
+		System.out.print("\nSELECIONE O ID DO PROJETO AONDE O COLABORADOR SERÁ ALOCADO: ");
+		id_projeto = input.nextInt();
+		
+		mostrar_Colaboradores(colaboradores);
+		System.out.print("\nSELECIONE O ID DO COLABORADOR A SE ALOCADO: ");
+		id_colaborador = input.nextInt();
+		
+		Colaborador fulano = colaboradores.get(id_colaborador);
+		Projeto projeto = projetos.get(id_projeto);
+		
+		if(fulano.Teste_Aluno_Graduacao()){
+			if(fulano.pode_Alocar()){
+				fulano.adicionar_Projeto(projeto);
+				projeto.adicionar_Colaboradores(fulano);
+			}else{
+				System.out.println("\nAlocação não permitida ! Aluno participa de mais de dois Projetos \"Em Andamento\"");
+			}
+		}else{
+			fulano.adicionar_Projeto(projeto);
+			projeto.adicionar_Colaboradores(fulano);
+		}
+		
+	}
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -171,14 +219,14 @@ public class Sistema {
 			
 			System.out.print("\n\n----------------------------------------------------\n"
                                 + "Seja bem vindo!\nSelecione uma das opções abaixo:\n\n"
-					+ "1- Alocar Colaborador\n"                     
+					+ "1- Alocar Colaborador\n"         //feito    
 					+ "2- Alterar Status\n"		   
 					+ "3- Inclusão de Publicação\n"        
 					+ "4- Consultar Colaborador\n"     
 					+ "5- Consultar Projeto\n"		   
 					+ "6- Mostrar relatório do Laboratório\n" 
 					+ "7- Adicionar Colaborador\n"      //feito
-					+ "8- Adicionar Projeto\n"
+					+ "8- Adicionar Projeto\n"			//feito
 					+ "9- Mostrar Colaboradores\n"
 					+ "10- Mostrar Projetos\n"
 					+ "Aperte '0' para sair !\n"	
@@ -195,6 +243,7 @@ public class Sistema {
 			switch(comando){
 				case 1:
 					System.out.println("Alocação de Colaborador\n-----------------------------\n");
+					alocar_Colaborador(colaboradores, projetos);
 					break;
 				
 				case 2:
