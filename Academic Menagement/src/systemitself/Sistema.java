@@ -11,6 +11,7 @@ public class Sistema {
 	private static ArrayList<Projeto> projetos;
 
 
+
 	//------------- Métodos Auxiliares ------------------
 	public static AlunoGraduacao adicionar_AG(String nome, String email){
 		
@@ -55,6 +56,31 @@ public class Sistema {
 		System.out.println("Sucesso!");
 		
 		return fulano;
+	}
+	public static void relatorio_Laboratorio(List<Projeto> projetos, List<Colaborador> colaboradores, int ori, int publi){
+		
+		int elaboracao = 0, andamento = 0, concluido = 0, aux;
+		int total_projetos = projetos.size();
+		int total_colaboradores = colaboradores.size();
+		Projeto projeto = null;
+		
+		for(aux = 0; aux < total_projetos; aux++){
+			projeto = projetos.get(aux);
+			
+			if(projeto.Consultar_Status() == 1){
+				elaboracao++;
+			}else if(projeto.Consultar_Status() == 3){
+				andamento++;
+			}else{
+				concluido++;
+			}
+		}
+		
+		System.out.println("Atualmente no laboratório temos "+ total_colaboradores +
+				" colaboradores alocados em "+ total_projetos + " projetos, dos quais "+ elaboracao 
+				+ " estão em Elaboração, "+ andamento + " estão em Andamento e "+ concluido + " Concluídos."
+						+ " Além do total de " + ori + " Orientações e " + publi + " Publicações");
+		
 	}
 	
 	public static void mostrar_Alunos(List <Colaborador> colaboradores, int i){
@@ -156,7 +182,7 @@ public class Sistema {
 		for(aux = 0; aux < total_projetos; aux++){
 			projeto = projetos.get(aux);
 			
-			if(projeto.conferir_Projeto_Prontoparacomecar()){
+			if(projeto.conferir_Projeto_Prontoparacomecar() && projeto.Consultar_Status() != 3){
 				contador++;
 				System.out.print("\nID: "+ aux +" Título: " + projeto.titulo + " - ESTÁ PRONTO PARA COMEÇAR!");
 			}else if(projeto.conferir_Projeto_Prontoparaconcluir()){
@@ -177,6 +203,7 @@ public class Sistema {
 		}		
 		
 	}
+
 	
 	//------------- Métodos Principais ------------------
 	public static Colaborador adicionar_Colaborador(){
@@ -277,7 +304,7 @@ public class Sistema {
 		}
 		
 	}
-	public static void adicionar_Orientacao_Publicacao(List<Colaborador> colaboradores, List<Projeto> projetos){
+	public static void adicionar_Orientacao_Publicacao(List<Colaborador> colaboradores, List<Projeto> projetos, int publ, int ori){
 		
 		int escolha = 0, id_professor = 0, id_aluno=0, ano, id,	id_autor, comando = 1;
 		Projeto projeto = null;
@@ -305,6 +332,7 @@ public class Sistema {
 			
 			fulano.adicionar_Orientacao(sicrano);
 			System.out.println("\nOrientação adicionada com sucesso!");
+			ori++;
 		}else if(escolha == 2){
 			
 			Publicacoes publicacao = new Publicacoes();
@@ -354,6 +382,7 @@ public class Sistema {
 			}
 			
 			System.out.println("\nPublicação adicionada com sucesso!");
+			publ++;
 		}else{
 			System.out.println("Entrada inválida!");
 		}
@@ -364,10 +393,14 @@ public class Sistema {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+		int contagem_Orientacoes = 0;
+		int contagem_Publicacoes = 0;
 		int comando = 1;
 		input = new Scanner(System.in);
 		colaboradores = new ArrayList<Colaborador>();
 		projetos = new ArrayList<Projeto>();
+		
+		
 		
 		
 		
@@ -380,7 +413,7 @@ public class Sistema {
 					+ "3- Inclusão de Publicação\\Orientação\n"    //feito    
 					+ "4- Consultar Colaborador\n"     
 					+ "5- Consultar Projeto\n"		   
-					+ "6- Mostrar relatório do Laboratório\n" 
+					+ "6- Mostrar relatório do Laboratório\n" //feito FALTA CORRIGIR BUG DO NUMERO DE ORIENTACOES E PUBLICACOES
 					+ "7- Adicionar Colaborador\n"      //feito
 					+ "8- Adicionar Projeto\n"			//feito
 					+ "9- Mostrar Colaboradores\n"		//feito
@@ -409,7 +442,7 @@ public class Sistema {
 					
 				case 3:
 					System.out.println("Inclusão de Publicação\n-----------------------------\n");
-					adicionar_Orientacao_Publicacao(colaboradores, projetos);
+					adicionar_Orientacao_Publicacao(colaboradores, projetos, contagem_Publicacoes, contagem_Orientacoes);
 					break;
 				
 				case 4:
@@ -422,7 +455,8 @@ public class Sistema {
 					break;
 				
 				case 6:
-					System.out.println("Exibir Relatório do Laboratório\n-----------------------------\n");
+					System.out.println("Exibir Relatório do Laboratório\n-----------------------------\n\n");
+					relatorio_Laboratorio(projetos, colaboradores, contagem_Orientacoes, contagem_Publicacoes);
 					break;
 					
 				case 7:

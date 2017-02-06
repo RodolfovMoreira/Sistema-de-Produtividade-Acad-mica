@@ -76,7 +76,7 @@ public class Projeto {
 		
 		for(aux = 0; aux < total_colaboradores; aux++){
 			fulano = Projeto.participantes.get(aux);
-			if(fulano.Teste_Professor()){
+			if(fulano.retorna_tipo() == " é um Professor."){
 				flag = 1;
 			}
 		}
