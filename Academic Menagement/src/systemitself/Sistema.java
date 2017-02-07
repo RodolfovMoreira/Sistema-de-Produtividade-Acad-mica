@@ -304,9 +304,9 @@ public class Sistema {
 		}
 		
 	}
-	public static void adicionar_Orientacao_Publicacao(List<Colaborador> colaboradores, List<Projeto> projetos, int publ, int ori){
+	public static int adicionar_Orientacao_Publicacao(List<Colaborador> colaboradores, List<Projeto> projetos){
 		
-		int escolha = 0, id_professor = 0, id_aluno=0, ano, id,	id_autor, comando = 1;
+		int escolha = 0, id_professor = 0, id_aluno=0, ano, id,	id_autor, comando = 1, aux = 0;
 		Projeto projeto = null;
 		Colaborador fulano = null;
 		Colaborador sicrano = null;
@@ -319,6 +319,7 @@ public class Sistema {
 		
 		
 		if(escolha == 1){
+			aux = escolha;
 			mostrar_Professores(colaboradores);
 			System.out.print("\nDigite o ID do professor: ");
 			id_professor = input.nextInt();
@@ -332,8 +333,8 @@ public class Sistema {
 			
 			fulano.adicionar_Orientacao(sicrano);
 			System.out.println("\nOrientação adicionada com sucesso!");
-			ori++;
 		}else if(escolha == 2){
+			aux = escolha;
 			
 			Publicacoes publicacao = new Publicacoes();
 			
@@ -382,12 +383,11 @@ public class Sistema {
 			}
 			
 			System.out.println("\nPublicação adicionada com sucesso!");
-			publ++;
 		}else{
 			System.out.println("Entrada inválida!");
 		}
 		
-		
+	return aux;	
 	}
 	//---------------------------------------------------
 	public static void main(String[] args) {
@@ -395,7 +395,7 @@ public class Sistema {
 		
 		int contagem_Orientacoes = 0;
 		int contagem_Publicacoes = 0;
-		int comando = 1;
+		int comando = 1, aux = 0;
 		input = new Scanner(System.in);
 		colaboradores = new ArrayList<Colaborador>();
 		projetos = new ArrayList<Projeto>();
@@ -442,7 +442,12 @@ public class Sistema {
 					
 				case 3:
 					System.out.println("Inclusão de Publicação\n-----------------------------\n");
-					adicionar_Orientacao_Publicacao(colaboradores, projetos, contagem_Publicacoes, contagem_Orientacoes);
+					aux = adicionar_Orientacao_Publicacao(colaboradores, projetos);
+					if(aux == 1){
+						contagem_Orientacoes++;
+					}else{
+						contagem_Publicacoes++;
+					}
 					break;
 				
 				case 4:
