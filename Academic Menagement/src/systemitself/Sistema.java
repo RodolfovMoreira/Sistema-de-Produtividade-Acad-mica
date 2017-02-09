@@ -389,6 +389,31 @@ public class Sistema {
 		
 	return aux;	
 	}
+	public static void detalhes_Projeto(List<Projeto> projetos){
+		
+		int escolha=0,size=0;
+		Projeto proj_aux;
+		
+		size = projetos.size();
+		
+		if(size == 0){
+			System.out.println("Ainda não existem projetos!");
+		}else{
+			
+			System.out.print("Selecione o número do projeto no qual deseja consultar: ");
+			
+			escolha = input.nextInt();
+			
+			if(escolha < 0 || escolha >= size){
+				System.out.println("Entrada inválida!");
+			}else{
+				proj_aux = projetos.get(escolha);
+				proj_aux.mostrar_DadosBasicos();
+			}
+		}
+		
+	}
+
 	//---------------------------------------------------
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -412,8 +437,8 @@ public class Sistema {
 					+ "2- Alterar Status\n"		   		//feito
 					+ "3- Inclusão de Publicação\\Orientação\n"    //feito    
 					+ "4- Consultar Colaborador\n"     
-					+ "5- Consultar Projeto\n"		   
-					+ "6- Mostrar relatório do Laboratório\n" //feito FALTA CORRIGIR BUG DO NUMERO DE ORIENTACOES E PUBLICACOES
+					+ "5- Consultar Projeto\n"		   	//feito
+					+ "6- Mostrar relatório do Laboratório\n" //feito
 					+ "7- Adicionar Colaborador\n"      //feito
 					+ "8- Adicionar Projeto\n"			//feito
 					+ "9- Mostrar Colaboradores\n"		//feito
@@ -457,6 +482,7 @@ public class Sistema {
 					
 				case 5:
 					System.out.println("Consulta de Projeto\n-----------------------------\n");
+					detalhes_Projeto(projetos);
 					break;
 				
 				case 6:

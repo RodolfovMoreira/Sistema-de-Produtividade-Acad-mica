@@ -67,7 +67,9 @@ public class Colaborador {
 		Colaborador.publicacoes.add(publicacao);
 	}
 	//-------------- Testes e Consultas -----------------
-	
+	public String get_Name(){
+		return this.nome;
+	}
 	public boolean Teste_Professor() {
 		// TODO Auto-generated method stub
 		return false;
