@@ -6,8 +6,8 @@ import java.util.Collections;
 public class Projeto {
 
 	String titulo;			//feito
-	String data_inicio;		//feito
-	String data_termino;	//feito
+	int data_inicio;		//feito
+	int data_termino;	//feito
 	String agencia_financiadora;	//feito
 	String objetivo;	//feito
 	String descricao;	//feito
@@ -23,11 +23,11 @@ public class Projeto {
 		
 		this.titulo = titulo;
 	}	
-	public void setDataInicio(String datainicio){
+	public void setDataInicio(int datainicio){
 		
 		this.data_inicio = datainicio;
 	}
-	public void setDataTermino(String datatermino){
+	public void setDataTermino(int datatermino){
 		
 		this.data_termino = datatermino;
 	}
@@ -73,10 +73,10 @@ public class Projeto {
 		
 		Colaborador fulano = null;
 		int flag = 0, aux = 0;
-		int total_colaboradores = Projeto.participantes.size();
+		int total_colaboradores = this.participantes.size();
 		
 		for(aux = 0; aux < total_colaboradores; aux++){
-			fulano = Projeto.participantes.get(aux);
+			fulano = participantes.get(aux);
 			if(fulano.retorna_tipo() == " é um Professor."){
 				flag = 1;
 			}
@@ -91,7 +91,7 @@ public class Projeto {
 	}
 	public boolean conferir_Projeto_Prontoparaconcluir(){
 		
-		int total_publicacoes = Projeto.publicacoes.size();
+		int total_publicacoes = this.publicacoes.size();
 		
 		if(total_publicacoes > 0){
 			return true;
@@ -154,8 +154,8 @@ public class Projeto {
 	
 	public void mostrar_DadosBasicos(){
 		
-		System.out.print("\nDADOS DO PROJETO/"
-				+ "n--------------------\n"
+		System.out.print("\nDADOS DO PROJETO"
+				+ "\n--------------------\n"
 				+ "Título: " + this.titulo + "\n"
 						+ "Data de Início: " + this.data_inicio + "\n"
 								+ "Data de Término: " + this.data_termino + "\n"
@@ -183,7 +183,7 @@ public class Projeto {
 	}
 	public void adicionar_Colaboradores(Colaborador fulano){
 		
-		participantes.add(fulano);
+		this.participantes.add(fulano);
 		System.out.print(fulano.nome + " foi alocado(a) com sucesso no projeto: \"" + this.titulo + "\"");
 	}
 	public void adicionar_Publicacao(Publicacoes publicacao){

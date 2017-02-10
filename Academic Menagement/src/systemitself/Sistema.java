@@ -199,6 +199,7 @@ public class Sistema {
 			
 			projeto = projetos.get(id);
 			projeto.alterar_Status();
+			
 			System.out.println("Status do projeto \"" + projeto.titulo + "\" mudou para "+ projeto.get_Status());
 		}		
 		
@@ -237,7 +238,9 @@ public class Sistema {
 	}
 	public static Projeto adicionar_Projeto(){
 		
-		String titulo, data_inicio, data_termino, agencia_financiadora, objetivo, descricao;
+		String titulo, agencia_financiadora, objetivo, descricao;
+		int data_termino;
+		int data_inicio;
 		double valor_financiado;
 		
 		Projeto projetonovo = new Projeto();
@@ -245,10 +248,6 @@ public class Sistema {
 		input = new Scanner(System.in);
 		System.out.print("Insira o título do projeto: ");
 		titulo = input.nextLine();
-		System.out.print("Insira a data de início do projeto (dd/mm/aa) : ");
-		data_inicio = input.nextLine();
-		System.out.print("Insira a data de término do projeto (dd/mm/aa) : ");
-		data_termino = input.nextLine();
 		System.out.print("Agência financiadora do projeto: ");
 		agencia_financiadora = input.nextLine();
 		System.out.print("Digite o objetivo do Projeto: ");
@@ -257,6 +256,10 @@ public class Sistema {
 		descricao = input.nextLine();
 		System.out.print("Digite o valor financiado: ");
 		valor_financiado = input.nextDouble();
+		System.out.print("Insira a data de início do projeto (ano) : ");
+		data_inicio = input.nextInt();
+		System.out.print("Insira a data de término do projeto (ano) : ");
+		data_termino = input.nextInt();
 		
 		projetonovo.setTitulo(titulo);
 		projetonovo.setDataInicio(data_inicio);
@@ -280,11 +283,11 @@ public class Sistema {
 			System.out.println("Alocação não permitida! Não existem projetos e/ou colaboradores suficientes para prosseguir com a alocação!");
 		}else{
 			mostrar_Projetos_Em_Elaboracao(projetos);
-			System.out.print("\nSELECIONE O ID DO PROJETO AONDE O COLABORADOR SERÁ ALOCADO: ");
+			System.out.print("\nSelecione o ID do projeto onde o Colaborador será alocado: ");
 			id_projeto = input.nextInt();
 			
 			mostrar_Colaboradores(colaboradores);
-			System.out.print("\nSELECIONE O ID DO COLABORADOR A SE ALOCADO: ");
+			System.out.print("\nSelecione o ID do Colaborador a se alocado: ");
 			id_colaborador = input.nextInt();
 			
 			Colaborador fulano = colaboradores.get(id_colaborador);
@@ -348,10 +351,10 @@ public class Sistema {
 			publicacao.set_Titulo(titulos);
 			publicacao.set_Conferencia(conferencia);
 			publicacao.set_Ano(ano);
-			
+
 			System.out.print("\nDeseja associar a um projeto?\n1- Sim\n2- Não\n");
 			escolha = input.nextInt();
-			
+
 			if(escolha == 1){
 				mostrar_Projetos(projetos);
 				System.out.print("\nID do projeto a ser associado: ");
@@ -365,6 +368,7 @@ public class Sistema {
 					System.out.print("\nProjeto selecionado não está em andamento, associação proibida!\n");
 				}
 			}
+			
 			while(comando == 1){
 				mostrar_Colaboradores(colaboradores);
 				System.out.print("\nSelecione o ID do autor: ");
@@ -397,10 +401,10 @@ public class Sistema {
 		size = projetos.size();
 		
 		if(size == 0){
-			System.out.println("Ainda não existem projetos!");
+			System.out.println("Ainda não existem projetos no laboratório!");
 		}else{
-			
-			System.out.print("Selecione o número do projeto no qual deseja consultar: ");
+			mostrar_Projetos(projetos);
+			System.out.print("\nSelecione o ID do projeto no qual deseja consultar: ");
 			
 			escolha = input.nextInt();
 			
@@ -412,6 +416,29 @@ public class Sistema {
 			}
 		}
 		
+	}
+	public static void detalhes_Colaborador(List<Colaborador> colaboradores){
+		
+		int escolha=0,size=0;
+		Colaborador proj_aux;
+		
+		size = colaboradores.size();
+		
+		if(size == 0){
+			System.out.println("Ainda não existem colaboradores no laboratório!");
+		}else{
+			mostrar_Colaboradores(colaboradores);
+			System.out.print("\nSelecione o ID do colaborador no qual deseja consultar: ");
+			
+			escolha = input.nextInt();
+			
+			if(escolha < 0 || escolha >= size){
+				System.out.println("Entrada inválida!");
+			}else{
+				proj_aux = colaboradores.get(escolha);
+				proj_aux.mostrar_DadosBasicos();
+			}
+		}
 	}
 
 	//---------------------------------------------------
@@ -436,7 +463,7 @@ public class Sistema {
 					+ "1- Alocar Colaborador\n"         //feito    
 					+ "2- Alterar Status\n"		   		//feito
 					+ "3- Inclusão de Publicação\\Orientação\n"    //feito    
-					+ "4- Consultar Colaborador\n"     
+					+ "4- Consultar Colaborador\n"     	//feito
 					+ "5- Consultar Projeto\n"		   	//feito
 					+ "6- Mostrar relatório do Laboratório\n" //feito
 					+ "7- Adicionar Colaborador\n"      //feito
@@ -477,7 +504,7 @@ public class Sistema {
 				
 				case 4:
 					System.out.println("Consulta de Colaborador\n-----------------------------\n");
-					
+					detalhes_Colaborador(colaboradores);
 					break;
 					
 				case 5:
