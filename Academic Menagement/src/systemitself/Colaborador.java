@@ -8,9 +8,9 @@ public class Colaborador {
 
 	String nome;
 	String email;
-	private static ArrayList<Publicacoes> publicacoes = new ArrayList<Publicacoes>();
-	private static ArrayList<Projeto> historico = new ArrayList<Projeto>();
-	public static ArrayList<Colaborador> orientacoes = new ArrayList<Colaborador>();
+	private ArrayList<Publicacoes> publicacoes = new ArrayList<Publicacoes>();
+	private ArrayList<Projeto> historico = new ArrayList<Projeto>();
+	public ArrayList<Colaborador> orientacoes = new ArrayList<Colaborador>();
 	
 	//------------- Métodos Auxiliares ------------------	
 	public void setName(String Nome){
@@ -119,7 +119,7 @@ public class Colaborador {
 		historico.add(projeto);
 	}
 	public void adicionar_Publicacao(Publicacoes publicacao){
-		Colaborador.publicacoes.add(publicacao);
+		this.publicacoes.add(publicacao);
 	}
 	public void mostrar_DadosBasicos(){
 		System.out.print("\nDADOS DO COLABORADOR"

@@ -8,7 +8,7 @@ public class Publicacoes {
 	String conferencia_publicada;
 	int ano;
 	Projeto projeto_associado;
-	private static ArrayList<Colaborador> autores = new ArrayList<Colaborador>();
+	private ArrayList<Colaborador> autores = new ArrayList<Colaborador>();
 	
 	
 	public void set_Titulo(String titulo){

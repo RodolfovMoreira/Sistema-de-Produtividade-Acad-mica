@@ -12,8 +12,8 @@ public class Projeto {
 	String objetivo;	//feito
 	String descricao;	//feito
 	double valor_financiado;	//feito
-	private static ArrayList<Colaborador> participantes = new ArrayList<Colaborador>(); // Obrigado um professor
-	private static ArrayList<Publicacoes> publicacoes = new ArrayList<Publicacoes>();
+	private  ArrayList<Colaborador> participantes = new ArrayList<Colaborador>(); // Obrigado um professor
+	private  ArrayList<Publicacoes> publicacoes = new ArrayList<Publicacoes>();
 	int status; //feito // 1- Em elaboração 2- Pronto para Inicar(Info, básicas Preenchidas) 3- Em andamento  4- Pronto para Concluir 5- Concluído
 	
 
@@ -52,6 +52,7 @@ public class Projeto {
 		this.status = status;
 	}
 
+	
 	public int Consultar_Status(){
 		return this.status;
 	}
@@ -151,7 +152,21 @@ public class Projeto {
 	}
 
 	//------------- Métodos Principais ------------------
-	
+	public int checar_Colaborador(Colaborador fulano){
+		
+		int tamanho,i;
+		Colaborador comparar;
+		tamanho = participantes.size();
+		
+		for(i=0; i<tamanho; i++){
+			comparar = participantes.get(i);
+			
+			if(fulano.nome == comparar.nome){
+				return 1;
+			}
+		}
+		return 0;
+	}
 	public void mostrar_DadosBasicos(){
 		
 		System.out.print("\nDADOS DO PROJETO"
@@ -187,6 +202,6 @@ public class Projeto {
 		System.out.print(fulano.nome + " foi alocado(a) com sucesso no projeto: \"" + this.titulo + "\"");
 	}
 	public void adicionar_Publicacao(Publicacoes publicacao){
-		Projeto.publicacoes.add(publicacao);
+		this.publicacoes.add(publicacao);
 	}
 }

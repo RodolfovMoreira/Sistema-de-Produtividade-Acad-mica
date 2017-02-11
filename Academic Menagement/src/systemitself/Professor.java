@@ -1,7 +1,5 @@
 package systemitself;
 
-import java.util.ArrayList;
-
 public class Professor extends Colaborador{
 	
 	
